@@ -23,15 +23,13 @@ def get_employee(id: str):
         employees.c.id == id)).first()
     if not result:
         return {"error": "Employee not found"}
-    return {"data": {"id": result[0], "name": result[1]}}
+    return result
 
 
 @employee.get("/employee", response_model=list[Employee], tags=["employees"])
 def get_employees():
     result = conn.execute(employees.select()).fetchall()
-    result_dicts = [{"id": (row[0]), "name": row[1]} for row in result]
-    response = {"data": result_dicts}
-    return response
+    return result
 
 
 @employee.delete("/employee/{id}", status_code=status.HTTP_204_NO_CONTENT, tags=["employees"])

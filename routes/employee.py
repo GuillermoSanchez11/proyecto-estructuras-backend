@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Response, status
+from fastapi.responses import JSONResponse
 from models.employee import employees
 from config.db import conn
 from schemas.employee import Employee
@@ -46,6 +47,6 @@ def update_employee(id: str, employee: Employee):
     result = conn.execute(employees.update().values(
         name=employee.name).where(employees.c.id == id))
     if not result.rowcount:
-        return {"error": "Employee not found"}
+        return JSONResponse(status_code=404, content={"detail": "Loan not found"})
     conn.commit()
     return conn.execute(employees.select().where(employees.c.id == id)).first()

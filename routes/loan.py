@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Response, status
+from fastapi.responses import JSONResponse
 from config.db import conn
 from models.loan import loans
 from schemas.loan import Loan, LoanPut
@@ -56,8 +57,7 @@ def update_loan(id: str, loan: LoanPut):
         devolution_date=loan.devolution_date,
         return_date=loan.return_date
     ).where(loans.c.id == id))
-    print(result.rowcount)
     if not result.rowcount:
-        return {"error": "Loan not found"}
+        return JSONResponse(status_code=404, content={"detail": "Loan not found"})
     conn.commit()
     return conn.execute(loans.select().where(loans.c.id == id)).first()

@@ -1,0 +1,352 @@
+[
+  {
+    "book_id": "1",
+    "title": "The Theory of Everything",
+    "author": "John Smith",
+    "genre": "science",
+    "year": "2001"
+  },
+  {
+    "book_id": "2",
+    "title": "Introduction to Calculus",
+    "author": "Jane Johnson",
+    "genre": "mathematics",
+    "year": "1999"
+  },
+  {
+    "book_id": "3",
+    "title": "The Origin of Species",
+    "author": "Robert Brown",
+    "genre": "science",
+    "year": "1859"
+  },
+  {
+    "book_id": "4",
+    "title": "Principles of Economics",
+    "author": "Michael Davis",
+    "genre": "business",
+    "year": "2006"
+  },
+  {
+    "book_id": "5",
+    "title": "The Great Gatsby",
+    "author": "Emily White",
+    "genre": "fiction",
+    "year": "1925"
+  },
+  {
+    "book_id": "6",
+    "title": "A Brief History of Time",
+    "author": "David Anderson",
+    "genre": "science",
+    "year": "1988"
+  },
+  {
+    "book_id": "7",
+    "title": "To Kill a Mockingbird",
+    "author": "Sarah Thompson",
+    "genre": "fiction",
+    "year": "1960"
+  },
+  {
+    "book_id": "8",
+    "title": "The Art of War",
+    "author": "Daniel Wilson",
+    "genre": "history",
+    "year": "1670"
+  },
+  {
+    "book_id": "9",
+    "title": "The Catcher in the Rye",
+    "author": "Christopher Lee",
+    "genre": "fiction",
+    "year": "1951"
+  },
+  {
+    "book_id": "10",
+    "title": "The Elements of Style",
+    "author": "Olivia Brown",
+    "genre": "language",
+    "year": "1918"
+  },
+  {
+    "book_id": "11",
+    "title": "The Iliad",
+    "author": "Sophia Davis",
+    "genre": "poetry",
+    "year": "1789"
+  },
+  {
+    "book_id": "12",
+    "title": "1984",
+    "author": "Daniel Robinson",
+    "genre": "fiction",
+    "year": "1949"
+  },
+  {
+    "book_id": "13",
+    "title": "The Lord of the Rings",
+    "author": "Emma Wilson",
+    "genre": "fantasy",
+    "year": "1954"
+  },
+  {
+    "book_id": "14",
+    "title": "The Chronicles of Narnia",
+    "author": "James Johnson",
+    "genre": "fantasy",
+    "year": "1950"
+  },
+  {
+    "book_id": "15",
+    "title": "Pride and Prejudice",
+    "author": "Oliver Smith",
+    "genre": "fiction",
+    "year": "1813"
+  },
+  {
+    "book_id": "16",
+    "title": "The Diary of a Young Girl",
+    "author": "Sophia White",
+    "genre": "biography",
+    "year": "1947"
+  },
+  {
+    "book_id": "17",
+    "title": "The Hobbit",
+    "author": "Michael Davis",
+    "genre": "fantasy",
+    "year": "1937"
+  },
+  {
+    "book_id": "18",
+    "title": "The Da Vinci Code",
+    "author": "Emily Wilson",
+    "genre": "mystery",
+    "year": "2003"
+  },
+  {
+    "book_id": "19",
+    "title": "The Alchemist",
+    "author": "Robert Brown",
+    "genre": "fantasy",
+    "year": "1988"
+  },
+  {
+    "book_id": "20",
+    "title": "Harry Potter and the Philosopher's Stone",
+    "author": "John Smith",
+    "genre": "fantasy",
+    "year": "1997"
+  },
+  {
+    "book_id": "21",
+    "title": "The Little Prince",
+    "author": "Jane Johnson",
+    "genre": "children",
+    "year": "1943"
+  },
+  {
+    "book_id": "22",
+    "title": "Moby-Dick",
+    "author": "David Anderson",
+    "genre": "adventure",
+    "year": "1851"
+  },
+  {
+    "book_id": "23",
+    "title": "The Hunger Games",
+    "author": "Sarah Thompson",
+    "genre": "science fiction",
+    "year": "2008"
+  },
+  {
+    "book_id": "24",
+    "title": "The Kite Runner",
+    "author": "Michael Davis",
+    "genre": "historical fiction",
+    "year": "2003"
+  },
+  {
+    "book_id": "25",
+    "title": "Animal Farm",
+    "author": "Christopher Lee",
+    "genre": "allegory",
+    "year": "1945"
+  },
+  {
+    "book_id": "26",
+    "title": "Brave New World",
+    "author": "Olivia Brown",
+    "genre": "dystopian",
+    "year": "1932"
+  },
+  {
+    "book_id": "27",
+    "title": "Gone with the Wind",
+    "author": "Sophia Davis",
+    "genre": "historical fiction",
+    "year": "1936"
+  },
+  {
+    "book_id": "28",
+    "title": "The Fault in Our Stars",
+    "author": "Daniel Robinson",
+    "genre": "young adult",
+    "year": "2012"
+  },
+  {
+    "book_id": "29",
+    "title": "The Girl with the Dragon Tattoo",
+    "author": "Emma Wilson",
+    "genre": "crime",
+    "year": "2005"
+  },
+  {
+    "book_id": "30",
+    "title": "The Shining",
+    "author": "James Johnson",
+    "genre": "horror",
+    "year": "1977"
+  },
+  {
+    "book_id": "31",
+    "title": "The Picture of Dorian Gray",
+    "author": "Oliver Smith",
+    "genre": "gothic",
+    "year": "1890"
+  },
+  {
+    "book_id": "32",
+    "title": "The Divine Comedy",
+    "author": "Sophia White",
+    "genre": "epic poetry",
+    "year": "1320"
+  },
+  {
+    "book_id": "33",
+    "title": "The Adventures of Huckleberry Finn",
+    "author": "Michael Davis",
+    "genre": "adventure",
+    "year": "1884"
+  },
+  {
+    "book_id": "34",
+    "title": "Alice's Adventures in Wonderland",
+    "author": "Emily Wilson",
+    "genre": "fantasy",
+    "year": "1865"
+  },
+  {
+    "book_id": "35",
+    "title": "The War of the Worlds",
+    "author": "Robert Brown",
+    "genre": "science fiction",
+    "year": "1898"
+  },
+  {
+    "book_id": "36",
+    "title": "The Chronicles of Narnia",
+    "author": "John Smith",
+    "genre": "fantasy",
+    "year": "1950"
+  },
+  {
+    "book_id": "37",
+    "title": "The Count of Monte Cristo",
+    "author": "Jane Johnson",
+    "genre": "adventure",
+    "year": "1844"
+  },
+  {
+    "book_id": "38",
+    "title": "The Odyssey",
+    "author": "David Anderson",
+    "genre": "epic poetry",
+    "year": "1977"
+  },
+  {
+    "book_id": "39",
+    "title": "One Hundred Years of Solitude",
+    "author": "Sarah Thompson",
+    "genre": "magical realism",
+    "year": "1967"
+  },
+  {
+    "book_id": "40",
+    "title": "The Brothers Karamazov",
+    "author": "Michael Davis",
+    "genre": "philosophical fiction",
+    "year": "1880"
+  },
+  {
+    "book_id": "41",
+    "title": "War and Peace",
+    "author": "Christopher Lee",
+    "genre": "historical fiction",
+    "year": "1869"
+  },
+  {
+    "book_id": "42",
+    "title": "The Divine Secrets of the Ya-Ya Sisterhood",
+    "author": "Olivia Brown",
+    "genre": "fiction",
+    "year": "1996"
+  },
+  {
+    "book_id": "43",
+    "title": "The Old Man and the Sea",
+    "author": "Sophia Davis",
+    "genre": "novella",
+    "year": "1952"
+  },
+  {
+    "book_id": "44",
+    "title": "The Chronicles of Narnia",
+    "author": "Daniel Robinson",
+    "genre": "fantasy",
+    "year": "1950"
+  },
+  {
+    "book_id": "45",
+    "title": "Crime and Punishment",
+    "author": "Emma Wilson",
+    "genre": "psychological fiction",
+    "year": "1866"
+  },
+  {
+    "book_id": "46",
+    "title": "The Name of the Wind",
+    "author": "James Johnson",
+    "genre": "fantasy",
+    "year": "2007"
+  },
+  {
+    "book_id": "47",
+    "title": "The Book Thief",
+    "author": "Oliver Smith",
+    "genre": "historical fiction",
+    "year": "2005"
+  },
+  {
+    "book_id": "48",
+    "title": "The Metamorphosis",
+    "author": "Sophia White",
+    "genre": "absurdist fiction",
+    "year": "1915"
+  },
+  {
+    "book_id": "49",
+    "title": "The Handmaid's Tale",
+    "author": "Michael Davis",
+    "genre": "dystopian",
+    "year": "1985"
+  },
+  {
+    "book_id": "50",
+    "title": "The Chronicles of Narnia",
+    "author": "Emily Wilson",
+    "genre": "fantasy",
+    "year": "1950"
+  }
+]

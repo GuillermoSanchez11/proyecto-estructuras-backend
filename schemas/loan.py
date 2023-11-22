@@ -7,12 +7,16 @@ class Loan(BaseModel):
     id: str
     employee_id: str
     user_name: str
-    book: str
+    book_id: str
     loan_date: datetime
-    devolution_date: datetime
-    return_date: datetime
+    devolution_date: Optional[datetime]
+    return_date: Optional[datetime]
 
 
 class LoanPut(BaseModel):
     devolution_date: Optional[datetime]
+    return_date: Optional[datetime]
+
+
+class LoanReturn(BaseModel):
     return_date: Optional[datetime]

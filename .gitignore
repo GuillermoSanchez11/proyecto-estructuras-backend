@@ -160,3 +160,6 @@ cython_debug/
 #.idea/
 
 mysql-database/db/mysql.sock
+
+mysql-database/db/run/mysqld/mysqlx.sock
+mysql-database/db/run/mysqld/mysqld.sock

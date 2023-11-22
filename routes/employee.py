@@ -15,7 +15,9 @@ def create_employee(employee: Employee):
     result = conn.execute(employees.insert().values(**new_employee))
     conn.commit()
     print(result)
-    return conn.execute(employees.select().where(employees.c.id == result.lastrowid)).first()
+    created_employee = conn.execute(employees.select().where(
+        employees.c.id == employee.id)).first()
+    return created_employee
 
 
 @employee.get("/employee/{id}", response_model=Employee, tags=["employees"])

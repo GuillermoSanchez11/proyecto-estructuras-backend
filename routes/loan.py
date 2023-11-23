@@ -67,21 +67,24 @@ def update_loan(id: str, loan: LoanPut):
     return conn.execute(loans.select().where(loans.c.id == id)).first()
 
 
-@loan.put("/loan/{id}/return", response_model=LoanPut, tags=["loans"])
-def return_loan(id: str, loan: LoanPut):
+@loan.put("/loan/{id}/return", response_model=Loan, tags=["loans"])
+def return_loan(id: str, loan: Loan):
     result = conn.execute(loans.update().values(
         return_date=loan.return_date
     ).where(loans.c.id == id))
     result_date = conn.execute(loans.select().where(loans.c.id == id)).first()
     print(result_date)
-    average_difference = session.query(
-        func.avg(func.abs(result_date[6] - result_date[5])
-                 ).label('average_difference')
+    difference = result_date[6] - result_date[5]
+
+    book_id = conn.execute(loans.select().where(loans.c.id == id)).first()[3]
+
+    count_result = conn.execute(
+        loans.select([loans.func.count()]).select_from(book_id).scalar()
     ).scalar()
 
-    print(result_date[5])
-    print(result_date[6])
-    print("Average Difference:", average_difference)
+    print("Count:", count_result)
+
+    print("Difference:", difference)
     if not result.rowcount:
         return JSONResponse(status_code=404, content={"detail": "Loan not found"})
     conn.commit()

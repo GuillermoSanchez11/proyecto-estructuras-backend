@@ -5,7 +5,7 @@ from models.loan import loans
 from schemas.loan import Loan, LoanPut, LoanReturn
 from starlette.status import HTTP_204_NO_CONTENT
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import func
+from sqlalchemy import func,select
 
 loan = APIRouter()
 
@@ -73,16 +73,23 @@ def return_loan(id: str, loan: Loan):
         return_date=loan.return_date
     ).where(loans.c.id == id))
     result_date = conn.execute(loans.select().where(loans.c.id == id)).first()
-    print(result_date)
+    print("result date:" ,result_date)
     difference = result_date[6] - result_date[5]
 
+
     book_id = conn.execute(loans.select().where(loans.c.id == id)).first()[3]
+    from sqlalchemy import text
 
-    count_result = conn.execute(
-        loans.select([loans.func.count()]).select_from(book_id).scalar()
-    ).scalar()
+    consulta = text("SELECT COUNT(*) FROM loans WHERE book_id = book_id")
+    count = conn.execute(consulta).scalar()
 
-    print("Count:", count_result)
+
+
+    
+    #consulta = select([func.count()]).where(loans.c.book_id == "1")
+    #resultado = conn.execute(consulta).scalar()
+
+    print("Count:", count)
 
     print("Difference:", difference)
     if not result.rowcount:

@@ -9,4 +9,3 @@ class Book(BaseModel):
     genre: str
     year: str
     Suggestion: Optional[int]
-    total_loans: Optional[int]

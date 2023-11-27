@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Response, status
 from fastapi.responses import JSONResponse
 from models.employee import employees
+from models.employees_per_day import employees_per_day
 from config.db import conn
 from schemas.employee import Employee
 from starlette.status import HTTP_204_NO_CONTENT
@@ -11,10 +12,8 @@ employee = APIRouter()
 @employee.post("/employee", response_model=Employee, tags=["employees"])
 def create_employee(employee: Employee):
     new_employee = {"id": employee.id, "name": employee.name}
-    print(new_employee)
-    result = conn.execute(employees.insert().values(**new_employee))
+    conn.execute(employees.insert().values(**new_employee))
     conn.commit()
-    print(result)
     created_employee = conn.execute(employees.select().where(
         employees.c.id == employee.id)).first()
     return created_employee

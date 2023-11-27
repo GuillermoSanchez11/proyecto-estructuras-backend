@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Response, status
 from fastapi.responses import JSONResponse
 from config.db import conn
+from models.employees_per_day import employees_per_day
 from models.book import books
 from models.loan import loans
 from schemas.loan import Loan, LoanPut, LoanReturn
@@ -16,17 +17,24 @@ session = Session()
 
 @loan.post("/loan", response_model=Loan, tags=["loans"])
 def create_loan(loan: Loan):
+
+    loan_date = loan.loan_date
+    week_day = loan_date.strftime("%A")
+
     new_loan = {
         "id": loan.id,
         "employee_id": loan.employee_id,
         "user_name": loan.user_name,
         "book_id": loan.book_id,
-        "loan_date": loan.loan_date,
+        "loan_date": loan_date,
         "devolution_date": loan.devolution_date,
-        "return_date": loan.return_date
+        "return_date": None,
+        "week_day": week_day
     }
-    result = conn.execute(loans.insert().values(new_loan))
+
+    conn.execute(loans.insert().values(new_loan))
     conn.commit()
+
     return conn.execute(loans.select().where(loans.c.id == loan.id)).first()
 
 
@@ -133,3 +141,56 @@ def update_suggestions():
         conn.execute(update_statement)
 
     conn.commit()
+
+
+def get_day_of_week(loan_date):
+    return loan_date.strftime("%A")
+
+
+@loan.post("/loan/update_days", response_model=None, tags=["loans"])
+def update_days():
+    loans_list = conn.execute(loans.select()).fetchall()
+
+    days_count = {"Monday": 0, "Tuesday": 0, "Wednesday": 0,
+                  "Thursday": 0, "Friday": 0, "Saturday": 0, "Sunday": 0}
+
+    for loan in loans_list:
+        loan_date = loan[4]
+        day_of_week = get_day_of_week(loan_date)
+
+        update_statement = update(loans).values(
+            week_day=day_of_week).where(loans.c.id == loan[0])
+        conn.execute(update_statement)
+
+        days_count[day_of_week] += 1
+
+    conn.commit()
+    print("Days count:", days_count)
+
+    return days_count
+
+
+@loan.post("/loan/update_days_limited", response_model=None, tags=["loans"])
+def update_days_limited():
+
+    query = select(loans).limit(1000)
+
+    loans_list = conn.execute(query).fetchall()
+
+    days_count = {"Monday": 0, "Tuesday": 0, "Wednesday": 0,
+                  "Thursday": 0, "Friday": 0, "Saturday": 0, "Sunday": 0}
+
+    for loan in loans_list:
+        loan_date = loan[4]
+        day_of_week = get_day_of_week(loan_date)
+
+        update_statement = update(loans).values(
+            week_day=day_of_week).where(loans.c.id == loan[0])
+        conn.execute(update_statement)
+
+        days_count[day_of_week] += 1
+
+    conn.commit()
+    print("Days count:", days_count)
+
+    return {"message": "Days updated and counted"}

@@ -11,6 +11,7 @@ class Loan(BaseModel):
     loan_date: datetime
     devolution_date: Optional[datetime]
     return_date: Optional[datetime]
+    week_day: Optional[str]
 
 
 class LoanPut(BaseModel):

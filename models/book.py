@@ -1,5 +1,4 @@
 from sqlalchemy import Table, Column
-from sqlalchemy import Table, Column
 from sqlalchemy.sql.sqltypes import String, Integer
 from config.db import meta, engine
 

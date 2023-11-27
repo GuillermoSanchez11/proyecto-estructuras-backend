@@ -8,6 +8,7 @@ from schemas.loan import Loan, LoanPut, LoanReturn
 from starlette.status import HTTP_204_NO_CONTENT
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import func, select, text, update
+from typing import List
 
 loan = APIRouter()
 
@@ -43,7 +44,16 @@ def get_loan(id: str):
     result = conn.execute(loans.select().where(loans.c.id == id)).first()
     if not result:
         return {"error": "Loan not found"}
-    return {"data": {"id": result[0], "employee_id": result[1], "user_name": result[2], "book_id": result[3], "loan_date": result[4], "devolution_date": result[5], "return_date": result[6]}}
+    return result
+
+
+@loan.get("/loan/return", response_model=Loan, tags=["loans"])
+def get_loan_by_return_date():
+    query = text("SELECT * FROM loans WHERE return_date IS NULL")
+    result = conn.execute(query)
+    print("Result:", result)
+
+    return result
 
 
 @loan.get("/loan", response_model=list[Loan], tags=["loans"])

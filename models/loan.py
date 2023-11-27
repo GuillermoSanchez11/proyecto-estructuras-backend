@@ -12,7 +12,8 @@ loans = Table("loans", meta,
               Column("book_id", String(15), ForeignKey("books.book_id")),
               Column("loan_date", DateTime, default=datetime.now),
               Column("devolution_date", DateTime, nullable=True),
-              Column("return_date", DateTime, nullable=True)
+              Column("return_date", DateTime, nullable=True),
+              Column("week_day", String(255), nullable=True)
               )
 
 meta.create_all(engine)

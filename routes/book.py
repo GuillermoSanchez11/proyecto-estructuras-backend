@@ -34,8 +34,9 @@ def get_book(book_id: str):
 
 @book.get("/book", response_model=list[Book], tags=["books"])
 def get_books():
-    result = conn.execute(books.select()).fetchall()
 
+    with conn as connection:
+        result = connection.execute(books.select()).fetchall()
     return result
 
 

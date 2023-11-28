@@ -4,16 +4,23 @@ from config.db import conn
 from models.employees_per_day import employees_per_day
 from models.book import books
 from models.loan import loans
+from models.employee import employees
 from schemas.loan import Loan, LoanPut, LoanReturn
+from schemas.employee import Employee
+from schemas.book import Book
 from starlette.status import HTTP_204_NO_CONTENT
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import func, select, text, update
 from typing import List
+from pydantic import BaseModel
+
+
+class LoansResponse(BaseModel):
+    employees: List[Employee]
+    books: List[Book]
+
 
 loan = APIRouter()
-
-Session = sessionmaker(bind=conn)
-session = Session()
 
 
 @loan.post("/loan", response_model=Loan, tags=["loans"])
@@ -33,26 +40,24 @@ def create_loan(loan: Loan):
         "week_day": week_day
     }
 
-    conn.execute(loans.insert().values(new_loan))
-    conn.commit()
+    with conn as connection:
+        connection.execute(loans.insert().values(new_loan))
+        connection.commit()
 
     return conn.execute(loans.select().where(loans.c.id == loan.id)).first()
+
+
+@loan.get("/loan/return", response_model=list[Loan], tags=["loans"])
+def get_loan_by_return_date():
+    result = conn.execute(loans.select().where(loans.c.return_date == None))
+    return result
 
 
 @loan.get("/loan/{id}", response_model=Loan, tags=["loans"])
 def get_loan(id: str):
     result = conn.execute(loans.select().where(loans.c.id == id)).first()
     if not result:
-        return {"error": "Loan not found"}
-    return result
-
-
-@loan.get("/loan/return", response_model=Loan, tags=["loans"])
-def get_loan_by_return_date():
-    query = text("SELECT * FROM loans WHERE return_date IS NULL")
-    result = conn.execute(query)
-    print("Result:", result)
-
+        return JSONResponse(status_code=404, content={"detail": "Loan not found"})
     return result
 
 
@@ -60,6 +65,17 @@ def get_loan_by_return_date():
 def get_loans():
     result = conn.execute(loans.select()).fetchall()
     return result
+
+
+@loan.get("/loan/book_and_employee", response_model=LoansResponse, tags=["loans"])
+def get_loans_by_book_and_employee():
+    result_employees = conn.execute(employees.select()).fetchall()
+    result_books = conn.execute(books.select()).fetchall()
+
+    employees_data = [Employee(**employee) for employee in result_employees]
+    books_data = [Book(**book) for book in result_books]
+
+    return LoansResponse(employees=employees_data, books=books_data)
 
 
 @loan.delete("/loan/{id}", status_code=status.HTTP_204_NO_CONTENT, tags=["loans"])

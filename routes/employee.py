@@ -30,7 +30,8 @@ def get_employee(id: str):
 
 @employee.get("/employee", response_model=list[Employee], tags=["employees"])
 def get_employees():
-    result = conn.execute(employees.select()).fetchall()
+    with conn as connection:
+        result = connection.execute(employees.select()).fetchall()
     return result
 
 

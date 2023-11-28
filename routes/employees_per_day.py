@@ -14,9 +14,9 @@ employee_per_day = APIRouter()
 
 @employee_per_day.post("/employees_per_days_per_day", response_model=EmployeesPerDay, tags=["employees_per_day"])
 def create_employees_per_day(employee_per_day: EmployeesPerDay):
-    if employee_per_day.daily_tasks == "aseo":
+    if employee_per_day.daily_tasks == "cleaning":
         employee_per_day.base_employees = 3
-    elif employee_per_day.daily_tasks == "inventario":
+    elif employee_per_day.daily_tasks == "inventory":
         employee_per_day.base_employees = 2
     else:
         employee_per_day.base_employees = 0
@@ -40,7 +40,6 @@ def create_employees_per_day(employee_per_day: EmployeesPerDay):
 @employee_per_day.get("/employees_per_day/{day}", response_model=EmployeesPerDay, tags=["employees_per_day"])
 def get_employees_per_day(day: str):
     result = conn.execute(employees_per_day.select().where(
-
         employees_per_day.c.day == day)).first()
     if not result:
         return {"error": "Entry not found"}
@@ -77,52 +76,50 @@ def update_days():
         loan_date = loan[4]
         day_of_week = get_day_of_week(loan_date)
 
-        update_statement = update(loans).values(
-            week_day=day_of_week).where(loans.c.id == loan[0])
-        conn.execute(update_statement)
-
         days_count[day_of_week] += 1
-
-    conn.commit()
-    print("Days count:", days_count)
+    # print("Days count:", days_count)
 
     return days_count
 
 
-@employee_per_day.put("/employees_per_day/{day}", response_model=EmployeesPerDayPut, tags=["employees_per_day"])
+@employee_per_day.put("/employees_per_day/{day}", tags=["employees_per_day"])
 def update_employees_per_day(day: str, employee_per_day: EmployeesPerDay):
+    result = conn.execute(employees_per_day.select().where(
+        employees_per_day.c.day == day)).first()
+    print("Result:", result)
 
-    if employee_per_day.daily_tasks == "aseo":
-        employee_per_day.base_employees = 3
-    elif employee_per_day.daily_tasks == "inventario":
-        employee_per_day.base_employees = 2
-    else:
-        employee_per_day.base_employees = 0
-
-    # Actualizar la cantidad de empleados en el diccionario days_count
     days_count = update_days()
     print(day)
-    print(type(day))
+    print(employee_per_day.base_employees)
+    print(result[2])
 
-    # Aplicar la lógica específica para calcular employees_quantity
     if day in days_count:
-        days_value = days_count[day]
-        additional_employees = days_value // 150
+        prestamos_por_dia = days_count[day]
+        print("Prestamos por día:", prestamos_por_dia)
+        additional_employees = prestamos_por_dia // 150
+        print("Empleados adicionales:", additional_employees)
         employee_per_day.employees_quantity = (
-            employee_per_day.base_employees + additional_employees
+            result[2] + additional_employees
         )
+        print("Cantidad de empleados:", employee_per_day.employees_quantity)
 
         # Actualizar la entrada en la base de datos con la nueva employees_quantity
         result = conn.execute(employees_per_day.update().values(
             daily_tasks=employee_per_day.daily_tasks,
-            base_employees=employee_per_day.base_employees,
+            base_employees=result[2],
             employees_quantity=employee_per_day.employees_quantity
         ).where(employees_per_day.c.day == day))
         print(conn.execute(employees_per_day.select().where(
             employees_per_day.c.day == day)).first())
-        conn.commit()
 
-        if not result.rowcount:
-            return JSONResponse(status_code=404, content={"detail": "Loan not found"})
-        conn.commit()
-        return conn.execute(employee_per_day.select().where(loans.c.id == id)).first()
+    conn.commit()
+
+
+"""
+    if employee_per_day.daily_tasks == "cleaning":
+        employee_per_day.base_employees = 3
+    elif employee_per_day.daily_tasks == "inventory":
+        employee_per_day.base_employees = 2
+    else:
+        employee_per_day.base_employees = 0
+        """

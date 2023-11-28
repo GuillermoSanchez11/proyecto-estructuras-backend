@@ -16,8 +16,8 @@ def create_employee(employee: Employee):
         connection.execute(employees.insert().values(**new_employee))
         connection.commit()
         created_employee = conn.execute(employees.select().where(
-        employees.c.id == employee.id)).first()
-    
+            employees.c.id == employee.id)).first()
+
     return created_employee
 
 
@@ -26,7 +26,7 @@ def get_employee(id: str):
     with engine.connect() as connection:
         result = connection.execute(employees.select().where(
             employees.c.id == id)).first()
-    
+
     if not result:
         return {"error": "Employee not found"}
     return result
@@ -34,7 +34,7 @@ def get_employee(id: str):
 
 @employee.get("/employee", response_model=list[Employee], tags=["employees"])
 def get_employees():
-    with engine.connect()  as connection:
+    with engine.connect() as connection:
         result = connection.execute(employees.select()).fetchall()
     return result
 

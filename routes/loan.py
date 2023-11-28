@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Response, status
 from fastapi.responses import JSONResponse
-from config.db import connection, engine
+from config.db import conn, engine
 from models.employees_per_day import employees_per_day
 from models.book import books
 from models.loan import loans
@@ -39,10 +39,12 @@ def create_loan(loan: Loan):
             "return_date": None,
             "week_day": week_day
         }
-        connection.execute(books.insert().values(new_loan))
+        connection.execute(loans.insert().values(new_loan))
+        loan_created = connection.execute(
+            loans.select().where(loans.c.id == loan.id)).first()
         connection.commit()
 
-    return connection.execute(loans.select().where(loans.c.id == loan.id)).first()
+    return loan_created
 
 
 @loan.get("/loan/return", response_model=list[Loan], tags=["loans"])
@@ -90,11 +92,14 @@ def update_loan(id: str, loan: LoanPut):
             devolution_date=loan.devolution_date,
             return_date=loan.return_date
         ).where(loans.c.id == id))
+        connection.commit()
+        loan_updated = connection.execute(
+            loans.select().where(loans.c.id == id)).first()
 
     if not result.rowcount:
         return JSONResponse(status_code=404, content={"detail": "Loan not found"})
-    connection.commit()
-    return connection.execute(loans.select().where(loans.c.id == id)).first()
+
+    return loan_updated
 
 
 @loan.put("/loan/{id}/return", response_model=Loan, tags=["loans"])
@@ -137,11 +142,13 @@ def return_loan(id: str, loan: Loan):
         difference = result_date[6] - result_date[5]
 
         print("Difference:", difference)
+        connection.commit()
+        retornar = connection.execute(
+            loans.select().where(loans.c.id == id)).first()
 
     if not result.rowcount:
         return JSONResponse(status_code=404, content={"detail": "Loan not found"})
-    connection.commit()
-    return connection.execute(loans.select().where(loans.c.id == id)).first()
+    return retornar
 
 
 @loan.post("/loan/update_suggestions", response_model=None, tags=["loans"])

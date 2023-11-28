@@ -2,7 +2,7 @@ from fastapi import APIRouter, Response, status
 from fastapi.responses import JSONResponse
 from models.employee import employees
 from models.employees_per_day import employees_per_day
-from config.db import conn
+from config.db import conn, engine
 from schemas.employee import Employee
 from starlette.status import HTTP_204_NO_CONTENT
 
@@ -30,7 +30,7 @@ def get_employee(id: str):
 
 @employee.get("/employee", response_model=list[Employee], tags=["employees"])
 def get_employees():
-    with conn as connection:
+    with engine.connect()  as connection:
         result = connection.execute(employees.select()).fetchall()
     return result
 

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Response, status, HTTPException
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
-from config.db import conn
+from config.db import conn, engine
 from models.book import books
 from schemas.book import Book
 from sqlalchemy import func
@@ -34,8 +34,7 @@ def get_book(book_id: str):
 
 @book.get("/book", response_model=list[Book], tags=["books"])
 def get_books():
-
-    with conn as connection:
+    with engine.connect() as connection:
         result = connection.execute(books.select()).fetchall()
     return result
 

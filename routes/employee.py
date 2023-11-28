@@ -11,18 +11,22 @@ employee = APIRouter()
 
 @employee.post("/employee", response_model=Employee, tags=["employees"])
 def create_employee(employee: Employee):
-    new_employee = {"id": employee.id, "name": employee.name}
-    conn.execute(employees.insert().values(**new_employee))
-    conn.commit()
-    created_employee = conn.execute(employees.select().where(
+    with engine.connect() as connection:
+        new_employee = {"id": employee.id, "name": employee.name}
+        connection.execute(employees.insert().values(**new_employee))
+        connection.commit()
+        created_employee = conn.execute(employees.select().where(
         employees.c.id == employee.id)).first()
+    
     return created_employee
 
 
 @employee.get("/employee/{id}", response_model=Employee, tags=["employees"])
 def get_employee(id: str):
-    result = conn.execute(employees.select().where(
-        employees.c.id == id)).first()
+    with engine.connect() as connection:
+        result = connection.execute(employees.select().where(
+            employees.c.id == id)).first()
+    
     if not result:
         return {"error": "Employee not found"}
     return result

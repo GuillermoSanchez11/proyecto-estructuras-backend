@@ -87,6 +87,13 @@ def update_employees_per_day(day: str, employee_per_day: EmployeesPerDay):
     result = conn.execute(employees_per_day.select().where(
         employees_per_day.c.day == day)).first()
     print("Result:", result)
+    print(employee_per_day.daily_tasks)
+    if employee_per_day.daily_tasks == "cleaning":
+        employee_per_day.base_employees = 3
+    elif employee_per_day.daily_tasks == "inventory":
+        employee_per_day.base_employees = 2
+    else:
+        employee_per_day.base_employees = 0
 
     days_count = update_days()
     print(day)
@@ -116,10 +123,5 @@ def update_employees_per_day(day: str, employee_per_day: EmployeesPerDay):
 
 
 """
-    if employee_per_day.daily_tasks == "cleaning":
-        employee_per_day.base_employees = 3
-    elif employee_per_day.daily_tasks == "inventory":
-        employee_per_day.base_employees = 2
-    else:
-        employee_per_day.base_employees = 0
+    
         """

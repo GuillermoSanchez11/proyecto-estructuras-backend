@@ -18,7 +18,7 @@ def create_book(book: Book):
         "genre": book.genre,
         "year": book.year,
     }
-    result = conn.execute(books.insert().values(new_book))
+    conn.execute(books.insert().values(new_book))
     conn.commit()
     return conn.execute(books.select().where(books.c.book_id == book.book_id)).first()
 

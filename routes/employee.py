@@ -41,18 +41,25 @@ def get_employees():
 
 @employee.delete("/employee/{id}", status_code=status.HTTP_204_NO_CONTENT, tags=["employees"])
 def delete_employee(id: str):
-    result = conn.execute(employees.delete().where(employees.c.id == id))
+    with engine.connect() as connection:
+        result = connection.execute(
+            employees.delete().where(employees.c.id == id))
+        connection.commit()
     if not result.rowcount:
         return {"error": "Employee not found"}
-    conn.commit()
+
     return Response(status_code=HTTP_204_NO_CONTENT)
 
 
 @employee.put("/employee/{id}", response_model=Employee, tags=["employees"])
 def update_employee(id: str, employee: Employee):
-    result = conn.execute(employees.update().values(
-        name=employee.name).where(employees.c.id == id))
+    with engine.connect() as connection:
+        result = connection.execute(employees.update().values(
+            name=employee.name).where(employees.c.id == id))
+        connection.commit()
+        employee_updated = connection.execute(employees.select().where(
+            employees.c.id == id)).first()
     if not result.rowcount:
         return JSONResponse(status_code=404, content={"detail": "Loan not found"})
-    conn.commit()
-    return conn.execute(employees.select().where(employees.c.id == id)).first()
+
+    return employee_updated

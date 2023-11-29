@@ -15,7 +15,7 @@ def create_employee(employee: Employee):
         new_employee = {"id": employee.id, "name": employee.name}
         connection.execute(employees.insert().values(**new_employee))
         connection.commit()
-        created_employee = conn.execute(employees.select().where(
+        created_employee = connection.execute(employees.select().where(
             employees.c.id == employee.id)).first()
 
     return created_employee

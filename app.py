@@ -16,7 +16,8 @@ app.include_router(employee_per_day)
 
 origins = [
     "http://localhost",
-    "http://localhost:3000",  # Agrega aquí la URL de tu aplicación cliente
+    "http://localhost:3000",  # Agrega aquí la URL de tu aplicación
+    "https://lib-suggest.vercel.app"
 ]
 
 app.add_middleware(

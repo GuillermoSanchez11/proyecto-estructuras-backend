@@ -121,7 +121,7 @@ def return_loan(id: str, loan: LoanPut):
         print("Count:", count)
 
         loans_with_same_book_id = connection.execute(
-            select(loans).where(loans.c.book_id == book_id)).fetchall()
+            select(loans).where((loans.c.book_id == book_id) & (loans.c.return_date.isnot(None))).fetchall()
 
         print("loans_with_same_book_id:", loans_with_same_book_id)
 

@@ -102,7 +102,7 @@ def update_loan(id: str, loan: LoanPut):
     return loan_updated
 
 
-@loan.put("/loan/{id}/return", response_model=Loan, tags=["loans"])
+@loan.put("/loan/{id}/return", response_model=LoanPut, tags=["loans"])
 def return_loan(id: str, loan: Loan):
     with engine.connect() as connection:
         result = connection.execute(loans.update().values(
